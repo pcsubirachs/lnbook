@@ -74,4 +74,195 @@ dina_address=$(docker-compose exec -T Dina bash -c "lncli -n regtest getinfo | j
 <code>cd code/docker</code>
 <code>bash setup-channels.sh</code>
 
+A successful payment output should look similar to this:
+
+<code>
+Get 10k sats invoice from Dina
+Dina invoice lnbcrt100u1psvjv7tpp5acr39q70h7kr4fgjxe6wz0r2qjqg5jz9mjpp7wptqt6e5nsq723qdqqcqzpgsp5xpqn8m3n664s3zme6n2tl826y47xa77a8682cf68tcpc3h45crpq9qy9qsqcyutex5ynvlykhxvw2rv5uscta7rz9p2kt98qczvs4x8jq3p2muslmlpw53tatzc3tl7cckghfca7r3jjlwec94x3mwfxy07ggx3zscpxvyxzt
+Wait for channel establishment - 60 seconds for 6 blocks
+Alice pays Dina 10k sats, routed around the network
+{
+    "payment_hash": "ee071283cfbfac3aa5123674e13c6a04808a4845dc821f382b02f59a4e00f2a2",
+    "value": "10000",
+    "creation_date": "1623798791",
+    "fee": "0",
+    "payment_preimage": "0000000000000000000000000000000000000000000000000000000000000000",
+    "value_sat": "10000",
+    "value_msat": "10000000",
+    "payment_request": "lnbcrt100u1psvjv7tpp5acr39q70h7kr4fgjxe6wz0r2qjqg5jz9mjpp7wptqt6e5nsq723qdqqcqzpgsp5xpqn8m3n664s3zme6n2tl826y47xa77a8682cf68tcpc3h45crpq9qy9qsqcyutex5ynvlykhxvw2rv5uscta7rz9p2kt98qczvs4x8jq3p2muslmlpw53tatzc3tl7cckghfca7r3jjlwec94x3mwfxy07ggx3zscpxvyxzt",
+    "status": "IN_FLIGHT",
+    "fee_sat": "0",
+    "fee_msat": "0",
+    "creation_time_ns": "1623798791682499710",
+    "htlcs": [
+    ],
+    "payment_index": "3",
+    "failure_reason": "FAILURE_REASON_NONE"
+}
+
+{
+    "payment_hash": "ee071283cfbfac3aa5123674e13c6a04808a4845dc821f382b02f59a4e00f2a2",
+    "value": "10000",
+    "creation_date": "1623798791",
+    "fee": "0",
+    "payment_preimage": "0000000000000000000000000000000000000000000000000000000000000000",
+    "value_sat": "10000",
+    "value_msat": "10000000",
+    "payment_request": "lnbcrt100u1psvjv7tpp5acr39q70h7kr4fgjxe6wz0r2qjqg5jz9mjpp7wptqt6e5nsq723qdqqcqzpgsp5xpqn8m3n664s3zme6n2tl826y47xa77a8682cf68tcpc3h45crpq9qy9qsqcyutex5ynvlykhxvw2rv5uscta7rz9p2kt98qczvs4x8jq3p2muslmlpw53tatzc3tl7cckghfca7r3jjlwec94x3mwfxy07ggx3zscpxvyxzt",
+    "status": "IN_FLIGHT",
+    "fee_sat": "0",
+    "fee_msat": "0",
+    "creation_time_ns": "1623798791682499710",
+    "htlcs": [
+        {
+            "status": "IN_FLIGHT",
+            "route": {
+                "total_time_lock": 6751,
+                "total_fees": "2",
+                "total_amt": "10002",
+                "hops": [
+                    {
+                        "chan_id": "7282065510891520",
+                        "chan_capacity": "1000000",
+                        "amt_to_forward": "10001",
+                        "fee": "1",
+                        "expiry": 6711,
+                        "amt_to_forward_msat": "10001010",
+                        "fee_msat": "1010",
+                        "pub_key": "03c84800871e47bc098c3b17ef0d2f0170efaaa30f0479bea4f3ce6bed913d6fc6",
+                        "tlv_payload": true,
+                        "mpp_record": null,
+                        "custom_records": {
+                        }
+                    },
+                    {
+                        "chan_id": "152832116391936",
+                        "chan_capacity": "1000000",
+                        "amt_to_forward": "10000",
+                        "fee": "1",
+                        "expiry": 6671,
+                        "amt_to_forward_msat": "10000000",
+                        "fee_msat": "1010",
+                        "pub_key": "02488c4da21628f1e999eaacde5bb36d54742ac1019ed16dacb888c2d6c8c54b14",
+                        "tlv_payload": true,
+                        "mpp_record": null,
+                        "custom_records": {
+                        }
+                    },
+                    {
+                        "chan_id": "152832116457472",
+                        "chan_capacity": "1000000",
+                        "amt_to_forward": "10000",
+                        "fee": "0",
+                        "expiry": 6671,
+                        "amt_to_forward_msat": "10000000",
+                        "fee_msat": "0",
+                        "pub_key": "03b345b3dfff78a62de9c9b2c575057e078e126a4bd0d1fb05efcf22827e743b9d",
+                        "tlv_payload": true,
+                        "mpp_record": {
+                            "payment_addr": "304133ee33d6ab088b79d4d4bf9d5a257c6efbdd3e8eac27475e0388deb4c0c2",
+                            "total_amt_msat": "10000000"
+                        },
+                        "custom_records": {
+                        }
+                    }
+                ],
+                "total_fees_msat": "2020",
+                "total_amt_msat": "10002020"
+            },
+            "attempt_time_ns": "1623798791706588828",
+            "resolve_time_ns": "0",
+            "failure": null,
+            "preimage": null
+        }
+    ],
+    "payment_index": "3",
+    "failure_reason": "FAILURE_REASON_NONE"
+}
+
+{
+    "payment_hash": "ee071283cfbfac3aa5123674e13c6a04808a4845dc821f382b02f59a4e00f2a2",
+    "value": "10000",
+    "creation_date": "1623798791",
+    "fee": "2",
+    "payment_preimage": "5d00b3ac5ef9eff08bc03d4e636c819833ee521e42de5089e8d6ab63d45848ff",
+    "value_sat": "10000",
+    "value_msat": "10000000",
+    "payment_request": "lnbcrt100u1psvjv7tpp5acr39q70h7kr4fgjxe6wz0r2qjqg5jz9mjpp7wptqt6e5nsq723qdqqcqzpgsp5xpqn8m3n664s3zme6n2tl826y47xa77a8682cf68tcpc3h45crpq9qy9qsqcyutex5ynvlykhxvw2rv5uscta7rz9p2kt98qczvs4x8jq3p2muslmlpw53tatzc3tl7cckghfca7r3jjlwec94x3mwfxy07ggx3zscpxvyxzt",
+    "status": "SUCCEEDED",
+    "fee_sat": "2",
+    "fee_msat": "2020",
+    "creation_time_ns": "1623798791682499710",
+    "htlcs": [
+        {
+            "status": "SUCCEEDED",
+            "route": {
+                "total_time_lock": 6751,
+                "total_fees": "2",
+                "total_amt": "10002",
+                "hops": [
+                    {
+                        "chan_id": "7282065510891520",
+                        "chan_capacity": "1000000",
+                        "amt_to_forward": "10001",
+                        "fee": "1",
+                        "expiry": 6711,
+                        "amt_to_forward_msat": "10001010",
+                        "fee_msat": "1010",
+                        "pub_key": "03c84800871e47bc098c3b17ef0d2f0170efaaa30f0479bea4f3ce6bed913d6fc6",
+                        "tlv_payload": true,
+                        "mpp_record": null,
+                        "custom_records": {
+                        }
+                    },
+                    {
+                        "chan_id": "152832116391936",
+                        "chan_capacity": "1000000",
+                        "amt_to_forward": "10000",
+                        "fee": "1",
+                        "expiry": 6671,
+                        "amt_to_forward_msat": "10000000",
+                        "fee_msat": "1010",
+                        "pub_key": "02488c4da21628f1e999eaacde5bb36d54742ac1019ed16dacb888c2d6c8c54b14",
+                        "tlv_payload": true,
+                        "mpp_record": null,
+                        "custom_records": {
+                        }
+                    },
+                    {
+                        "chan_id": "152832116457472",
+                        "chan_capacity": "1000000",
+                        "amt_to_forward": "10000",
+                        "fee": "0",
+                        "expiry": 6671,
+                        "amt_to_forward_msat": "10000000",
+                        "fee_msat": "0",
+                        "pub_key": "03b345b3dfff78a62de9c9b2c575057e078e126a4bd0d1fb05efcf22827e743b9d",
+                        "tlv_payload": true,
+                        "mpp_record": {
+                            "payment_addr": "304133ee33d6ab088b79d4d4bf9d5a257c6efbdd3e8eac27475e0388deb4c0c2",
+                            "total_amt_msat": "10000000"
+                        },
+                        "custom_records": {
+                        }
+                    }
+                ],
+                "total_fees_msat": "2020",
+                "total_amt_msat": "10002020"
+            },
+            "attempt_time_ns": "1623798791706588828",
+            "resolve_time_ns": "1623798792245314003",
+            "failure": null,
+            "preimage": "5d00b3ac5ef9eff08bc03d4e636c819833ee521e42de5089e8d6ab63d45848ff"
+        }
+    ],
+    "payment_index": "3",
+    "failure_reason": "FAILURE_REASON_NONE"
+}
+
+
+</code>
+
 If this doesn't work immediately, wait 5 to 10 minutes for more blocks to be mined. 
+
+That's it! You've now connected multiple nodes and executed a script that allowed Alice to pay Dina 10,000 sats instantly.
