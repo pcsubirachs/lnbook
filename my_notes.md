@@ -46,3 +46,32 @@ If desired, you can run any combination of LND and c-lightning nodes on the same
 
 
 ## Building a Complete Network
+
+Download docker-compose here: https://docs.docker.com/compose/install/
+
+
+### Updates on Linux
+---
+
+Update the <code>code/docker docker-compose.yml</code> file to fix bug with c-lightning. Ensure all nodes are running LND for this to work.
+
+Update the <code>setup-channels.sh</code> file as well to be compatible with the LND command line interface or lncli.
+
+<code>
+echo Getting node IDs
+alice_address=$(docker-compose exec -T Alice bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
+bob_address=$(docker-compose exec -T Bob bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
+chan_address=$(docker-compose exec -T Chan bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
+dina_address=$(docker-compose exec -T Dina bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
+</code>
+
+---
+
+##### Watch logs from any one container
+<code>docker-compose logs -f Alice</code>
+
+### Open channels and route a payment!
+<code>cd code/docker</code>
+<code>bash setup-channels.sh</code>
+
+If this doesn't work immediately, wait 5 to 10 minutes for more blocks to be mined. 

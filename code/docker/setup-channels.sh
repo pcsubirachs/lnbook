@@ -2,8 +2,8 @@
 
 echo Getting node IDs
 alice_address=$(docker-compose exec -T Alice bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
-bob_address=$(docker-compose exec -T Bob bash -c "lightning-cli getinfo | jq -r .id")
-chan_address=$(docker-compose exec -T Chan bash -c "eclair-cli -s -j -p eclair getinfo| jq -r .nodeId")
+bob_address=$(docker-compose exec -T Bob bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
+chan_address=$(docker-compose exec -T Chan bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
 dina_address=$(docker-compose exec -T Dina bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
 
 # Let's tell everyone what we found!
@@ -18,12 +18,12 @@ docker-compose exec -T Alice lncli -n regtest connect ${bob_address}@Bob
 docker-compose exec -T Alice lncli -n regtest openchannel ${bob_address} 1000000
 
 echo Bob to Chan
-docker-compose exec -T Bob lightning-cli connect ${chan_address}@Chan
-docker-compose exec -T Bob lightning-cli fundchannel ${chan_address} 1000000
+docker-compose exec -T Bob lncli -n regtest connect ${chan_address}@Chan
+docker-compose exec -T Bob lncli -n regtest openchannel ${chan_address} 1000000
 
 echo Chan to Dina
-docker-compose exec -T Chan eclair-cli -p eclair connect --uri=${dina_address}@Dina
-docker-compose exec -T Chan eclair-cli -p eclair open --nodeId=${dina_address} --fundingSatoshis=1000000
+docker-compose exec -T Chan lncli -n regtest connect ${dina_address}@Dina
+docker-compose exec -T Chan lncli -n regtest openchannel ${dina_address} 1000000
 
 echo Get 10k sats invoice from Dina
 dina_invoice=$(docker-compose exec -T Dina bash -c "lncli -n regtest addinvoice 10000 | jq -r .payment_request")
