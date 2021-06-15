@@ -76,7 +76,8 @@ dina_address=$(docker-compose exec -T Dina bash -c "lncli -n regtest getinfo | j
 
 A successful payment output should look similar to this:
 
-<code>
+----
+
 Get 10k sats invoice from Dina
 Dina invoice lnbcrt100u1psvjv7tpp5acr39q70h7kr4fgjxe6wz0r2qjqg5jz9mjpp7wptqt6e5nsq723qdqqcqzpgsp5xpqn8m3n664s3zme6n2tl826y47xa77a8682cf68tcpc3h45crpq9qy9qsqcyutex5ynvlykhxvw2rv5uscta7rz9p2kt98qczvs4x8jq3p2muslmlpw53tatzc3tl7cckghfca7r3jjlwec94x3mwfxy07ggx3zscpxvyxzt
 Wait for channel establishment - 60 seconds for 6 blocks
@@ -261,8 +262,11 @@ Alice pays Dina 10k sats, routed around the network
 }
 
 
-</code>
+----
 
 If this doesn't work immediately, wait 5 to 10 minutes for more blocks to be mined. 
 
 That's it! You've now connected multiple nodes and executed a script that allowed Alice to pay Dina 10,000 sats instantly.
+
+
+## Extra Challenges
