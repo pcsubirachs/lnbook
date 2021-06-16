@@ -12,37 +12,56 @@ LND hosts an instance of bitcoind which you can use to interact with.
 
 First, Navigate to lnbook/code/docker.
 
-In a separate terminal, build this docker container with <code> docker build -t lnbook/bitcoind bitcoind </code>
-
+In a separate terminal, build this docker container with
+```
+docker build -t lnbook/bitcoind bitcoind
+```
 Next, to be able to connect with your future virtual nodes, you'll need to create a LND network.
 
-In another terminal, create the network by executing <code> docker network create lnbook </code>
+In another terminal, create the network by executing
+```
+docker network create lnbook 
+```
 
-Ensure you see the "lnbook" network listed by running <code> docker network ls </code>
+Ensure you see the "lnbook" network listed by running 
+```
+docker network ls 
+```
 
-Now build the LND docker container with <code> docker build -t lnbook/lnd lnd </code>
+Now build the LND docker container with 
+```
+docker build -t lnbook/lnd lnd
+```
 
 
 ##### Run the containers
 
-Now, run the bitcoind container. <code> docker run -it --network lnbook --name bitcoind lnbook/bitcoind </code>
+Now, run the bitcoind container.
+```
+docker run -it --network lnbook --name bitcoind lnbook/bitcoind
+```
 
 This will start mining test blocks, let it run for a few minutes.
 
-Next, run the LND container you built. <code> docker run -it --network lnbook --name lnd lnbook/lnd </code>
+Next, run the LND container you built.
+```
+docker run -it --network lnbook --name lnd lnbook/lnd
+```
 
 The LND container starts up and connects to the bitcoind container over the docker network. First, our LND node will wait for bitcoind to start and then it will wait until bitcoind has mined some bitcoin into its wallet. Finally, as part of the container startup, a script will send an RPC command to the bitcoind node thereby creating a transaction that funds the LND wallet with 10 test BTC.
 
 
 ### Using the LND Command Line Interface or lncli
 we can issue commands to our container in another terminal in order to extract information, open channels etc. The command that allows us to issue command-line instructions to the lnd daemon is called lncli. Let’s get the node info using the docker exec command in another terminal window:
-
-<code> docker exec lnd lncli -n regtest getinfo </code>
-
+```
+docker exec lnd lncli -n regtest getinfo
+```
 
 ### Adding nodes to the network
 If desired, you can run any combination of LND and c-lightning nodes on the same Lightning network. For example, to run a second LND node you would issue the docker run command with a different container name like so:
-<code> docker run -it --network lnbook --name lnd2 lnbook/lnd </code>
+```
+docker run -it --network lnbook --name lnd2 lnbook/lnd
+```
 
 
 ## Building a Complete Network
@@ -57,27 +76,28 @@ Update the <code>code/docker docker-compose.yml</code> file to fix bug with c-li
 
 Update the <code>setup-channels.sh</code> file as well to be compatible with the LND command line interface or lncli.
 
-<code>
+```
 echo Getting node IDs
 alice_address=$(docker-compose exec -T Alice bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
 bob_address=$(docker-compose exec -T Bob bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
 chan_address=$(docker-compose exec -T Chan bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
 dina_address=$(docker-compose exec -T Dina bash -c "lncli -n regtest getinfo | jq -r .identity_pubkey")
-</code>
-
----
+```
 
 ##### Watch logs from any one container
-<code>docker-compose logs -f Alice</code>
+If you want to checkout the logs of a specific node, use <code>docker-compose logs -f Alice</code>
 
 ### Open channels and route a payment!
-<code>cd code/docker</code>
-<code>bash setup-channels.sh</code>
+Now we're finally ready to run the setup script that will connect the LND nodes listed above, and submit a payment of 10,000 sats from Alice to Dina.
+
+```
+cd code/docker
+bash setup-channels.sh
+```
 
 A successful payment output should look similar to this:
 
 ```
-
 Get 10k sats invoice from Dina
 Dina invoice lnbcrt100u1psvjv7tpp5acr39q70h7kr4fgjxe6wz0r2qjqg5jz9mjpp7wptqt6e5nsq723qdqqcqzpgsp5xpqn8m3n664s3zme6n2tl826y47xa77a8682cf68tcpc3h45crpq9qy9qsqcyutex5ynvlykhxvw2rv5uscta7rz9p2kt98qczvs4x8jq3p2muslmlpw53tatzc3tl7cckghfca7r3jjlwec94x3mwfxy07ggx3zscpxvyxzt
 Wait for channel establishment - 60 seconds for 6 blocks
@@ -260,13 +280,11 @@ Alice pays Dina 10k sats, routed around the network
     "payment_index": "3",
     "failure_reason": "FAILURE_REASON_NONE"
 }
-
-
 ```
 
 If this doesn't work immediately, wait 5 to 10 minutes for more blocks to be mined. 
 
-That's it! You've now connected multiple nodes and executed a script that allowed Alice to pay Dina 10,000 sats instantly.
+That's it! You've now connected multiple nodes and executed a script that allowed Alice to pay Dina 10,000 sats instantly with a payment that routed around the entire network!
 
 
 ## Extra Challenges

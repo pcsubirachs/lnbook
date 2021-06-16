@@ -25,13 +25,13 @@ echo Chan to Dina
 docker-compose exec -T Chan lncli -n regtest connect ${dina_address}@Dina
 docker-compose exec -T Chan lncli -n regtest openchannel ${dina_address} 1000000
 
-echo Get 10k sats invoice from Dina
-dina_invoice=$(docker-compose exec -T Dina bash -c "lncli -n regtest addinvoice 10000 | jq -r .payment_request")
+echo Get 50k sats invoice from Dina
+dina_invoice=$(docker-compose exec -T Dina bash -c "lncli -n regtest addinvoice 50000 | jq -r .payment_request")
 
 echo Dina invoice ${dina_invoice}
 
 echo Wait for channel establishment - 60 seconds for 6 blocks
 sleep 60
 
-echo Alice pays Dina 10k sats, routed around the network
+echo Alice pays Dina 50k sats, routed around the network
 docker-compose exec -T Alice lncli -n regtest payinvoice --json --inflight_updates -f ${dina_invoice}
